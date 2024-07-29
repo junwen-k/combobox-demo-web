@@ -7,8 +7,8 @@ import * as React from "react";
 import { fruits } from "../fruits";
 
 const DownshiftComboboxExample = () => {
-  const [value, setValue] = React.useState("apple");
-  const [inputValue, setInputValue] = React.useState("Apple");
+  const [value, setValue] = React.useState(fruits[0].value);
+  const [inputValue, setInputValue] = React.useState(fruits[0].label);
 
   const [items, setItems] = React.useState(fruits);
 
@@ -24,24 +24,44 @@ const DownshiftComboboxExample = () => {
     getItemProps,
   } = useCombobox({
     selectedItem: selected,
-    onSelectedItemChange: ({ selectedItem }) =>
-      setValue(selectedItem?.value ?? ""),
+    onSelectedItemChange: (props) => {
+      console.log("onSelectedItemChange", props);
+      setValue(props.selectedItem?.value ?? "");
+    },
     inputValue,
-    onInputValueChange: ({ inputValue }) => {
-      setInputValue(inputValue);
+    onInputValueChange: (props) => {
+      console.log("onInputValueChange", props);
+      setInputValue(props.inputValue);
       setItems(
         fruits.filter((fruit) =>
-          fruit.label.toLowerCase().includes(inputValue.toLowerCase())
+          fruit.label.toLowerCase().includes(props.inputValue.toLowerCase())
         )
       );
     },
     items,
+    itemToKey: (item) => item?.value,
     itemToString: (item) => item?.label ?? "",
   });
 
   return (
     <div className="grid justify-center gap-2">
-      <details open>
+      <div className="flex gap-2">
+        <button
+          className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 font-medium text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          type="button"
+          onClick={() => setValue(fruits[0].value)}
+        >
+          Set value 🍎
+        </button>
+        <button
+          className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 font-medium text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          type="button"
+          onClick={() => setInputValue(fruits[0].label)}
+        >
+          Set input value 🍎
+        </button>
+      </div>
+      <details>
         <summary>Controlled</summary>
         <pre className="font-mono text-xs">
           {JSON.stringify(

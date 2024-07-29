@@ -20,11 +20,13 @@ const ReactAriaComboboxExample = () => {
   const [inputValue, setInputValue] = React.useState(fruits[0].label);
 
   const handleSelectionChange = (key: Key | null) => {
+    console.log("onSelectionChange", key);
     setValue(key?.toString() ?? "");
     setInputValue(fruits.find((fruit) => fruit.value === key)?.label ?? "");
   };
 
   const handleInputChange = (value: string) => {
+    console.log("onInputChange", value);
     if (!value) {
       setValue("");
     }
@@ -33,13 +35,29 @@ const ReactAriaComboboxExample = () => {
 
   return (
     <div className="grid justify-center gap-2">
+      <div className="flex gap-2">
+        <button
+          className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 font-medium text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          type="button"
+          onClick={() => setValue(fruits[0].value)}
+        >
+          Set value 🍎
+        </button>
+        <button
+          className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 font-medium text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          type="button"
+          onClick={() => setInputValue(fruits[0].label)}
+        >
+          Set input value 🍎
+        </button>
+      </div>
       <ComboBox
         selectedKey={value}
         onSelectionChange={handleSelectionChange}
         inputValue={inputValue}
         onInputChange={handleInputChange}
       >
-        <details open>
+        <details>
           <summary>Controlled</summary>
           <pre className="font-mono text-xs">
             {JSON.stringify(

@@ -27,15 +27,37 @@ const MaterialComboboxExample = () => {
     options: fruits,
     getOptionLabel: (fruit) => fruit.label,
     inputValue,
-    onInputChange: (_, inputValue) => setInputValue(inputValue),
+    onInputChange: (event, inputValue) => {
+      console.log("onInputChange", event, inputValue);
+      setInputValue(inputValue);
+    },
     value: selected,
-    onChange: (_, selectedItem) => setValue(selectedItem?.value ?? ""),
+    onChange: (event, selectedItem) => {
+      console.log("onChange", event, selectedItem);
+      setValue(selectedItem?.value ?? "");
+    },
   });
 
   return (
     <div className="grid justify-center gap-2">
       <div className="flex gap-2">
-        <details open>
+        <button
+          className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 font-medium text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          type="button"
+          onClick={() => setValue(fruits[0].value)}
+        >
+          Set value 🍎
+        </button>
+        <button
+          className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 font-medium text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+          type="button"
+          onClick={() => setInputValue(fruits[0].label)}
+        >
+          Set input value 🍎
+        </button>
+      </div>
+      <div className="flex gap-2">
+        <details>
           <summary>Internal</summary>
           <pre className="font-mono text-xs">
             {JSON.stringify(
@@ -49,7 +71,7 @@ const MaterialComboboxExample = () => {
             )}
           </pre>
         </details>
-        <details open>
+        <details>
           <summary>Controlled</summary>
           <pre className="font-mono text-xs">
             {JSON.stringify(

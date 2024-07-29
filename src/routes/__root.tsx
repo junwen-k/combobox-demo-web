@@ -1,8 +1,16 @@
-import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
+import {
+  Link,
+  Outlet,
+  createRootRoute,
+  useLocation,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { Logger } from "../components/logger";
 
-export const Route = createRootRoute({
-  component: () => (
+const Root = () => {
+  const location = useLocation();
+
+  return (
     <>
       <div className="flex gap-2 p-2">
         <Link to="/ariakit" className="data-[status=active]:font-bold">
@@ -22,8 +30,18 @@ export const Route = createRootRoute({
         </Link>
       </div>
       <hr />
-      <Outlet />
+      <div className="py-20">
+        <Outlet />
+      </div>
+      <hr />
+      <div className="shadow-sm">
+        <Logger key={location.pathname} />
+      </div>
       <TanStackRouterDevtools />
     </>
-  ),
+  );
+};
+
+export const Route = createRootRoute({
+  component: Root,
 });
