@@ -22,6 +22,9 @@ const Root = () => {
         <Link to="/downshift" className="data-[status=active]:font-bold">
           Downshift
         </Link>
+        <Link to="/headless-ui" className="data-[status=active]:font-bold">
+          Headless UI
+        </Link>
         <Link to="/material-ui" className="data-[status=active]:font-bold">
           Material UI
         </Link>

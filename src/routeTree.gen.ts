@@ -18,6 +18,7 @@ import { Route as rootRoute } from './routes/__root'
 
 const ReactAriaLazyImport = createFileRoute('/react-aria')()
 const MaterialUiLazyImport = createFileRoute('/material-ui')()
+const HeadlessUiLazyImport = createFileRoute('/headless-ui')()
 const DownshiftLazyImport = createFileRoute('/downshift')()
 const CmdkLazyImport = createFileRoute('/cmdk')()
 const AriakitLazyImport = createFileRoute('/ariakit')()
@@ -34,6 +35,11 @@ const MaterialUiLazyRoute = MaterialUiLazyImport.update({
   path: '/material-ui',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/material-ui.lazy').then((d) => d.Route))
+
+const HeadlessUiLazyRoute = HeadlessUiLazyImport.update({
+  path: '/headless-ui',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/headless-ui.lazy').then((d) => d.Route))
 
 const DownshiftLazyRoute = DownshiftLazyImport.update({
   path: '/downshift',
@@ -87,6 +93,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DownshiftLazyImport
       parentRoute: typeof rootRoute
     }
+    '/headless-ui': {
+      id: '/headless-ui'
+      path: '/headless-ui'
+      fullPath: '/headless-ui'
+      preLoaderRoute: typeof HeadlessUiLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/material-ui': {
       id: '/material-ui'
       path: '/material-ui'
@@ -111,6 +124,7 @@ export const routeTree = rootRoute.addChildren({
   AriakitLazyRoute,
   CmdkLazyRoute,
   DownshiftLazyRoute,
+  HeadlessUiLazyRoute,
   MaterialUiLazyRoute,
   ReactAriaLazyRoute,
 })
@@ -127,6 +141,7 @@ export const routeTree = rootRoute.addChildren({
         "/ariakit",
         "/cmdk",
         "/downshift",
+        "/headless-ui",
         "/material-ui",
         "/react-aria"
       ]
@@ -142,6 +157,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/downshift": {
       "filePath": "downshift.lazy.tsx"
+    },
+    "/headless-ui": {
+      "filePath": "headless-ui.lazy.tsx"
     },
     "/material-ui": {
       "filePath": "material-ui.lazy.tsx"
